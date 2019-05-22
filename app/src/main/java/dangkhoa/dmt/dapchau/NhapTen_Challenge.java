@@ -8,25 +8,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class NhapTen extends AppCompatActivity {
+public class NhapTen_Challenge extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nhap_ten);
-
-        myNhapTen = this;
+        setContentView(R.layout.activity_nhap_ten__challenge);
+        myNhapTenChallenge = this;
+        Intent intent = getIntent();
+        tong = intent.getIntExtra("thoigian2", 0);
         khaiBao();
         thucHien();
 
     }
 
-    private static NhapTen myNhapTen;
-    public static NhapTen getMyNhapTen()
+    private static NhapTen_Challenge myNhapTenChallenge;
+    public static NhapTen_Challenge getMyNhapTenChallenge()
     {
-        return myNhapTen;
+        return myNhapTenChallenge;
     }
 
+    private int tong;
     private static int cheDo = 0;
 
     private TextView diem;
@@ -39,14 +41,14 @@ public class NhapTen extends AppCompatActivity {
 
     public void khaiBao()
     {
-        diem = (TextView)findViewById(R.id.yourScore);
-        thongBao = (TextView)findViewById(R.id.txvThongBao);
-        ten = (EditText)findViewById(R.id.yourHoTen);
-        luu = (Button)findViewById(R.id.yourLuu);
+        diem = (TextView)findViewById(R.id.yourScoreChallenge);
+        thongBao = (TextView)findViewById(R.id.txvThongBaoChallenge);
+        ten = (EditText)findViewById(R.id.yourHoTenChallenge);
+        luu = (Button)findViewById(R.id.yourLuuChallenge);
     }
 
     public void thucHien() {
-        diem.setText("Your Score: " + DataGame.getDatagame().getDiem());
+        diem.setText("Your Score: " + DataGameChallenge.getDatagameChallenge().getDiem());
 
         luu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,9 +77,19 @@ public class NhapTen extends AppCompatActivity {
                         {
                             thongBao.setText("");
                             MainActivity.getMyMain().khoaThoatRa();
-                            HighScore.getHighScore().ketThuc();
-                            GamePlay.getMyGamePlay().Luu();
-                            startActivity(new Intent(NhapTen.this, MainActivity.class));
+                            if(tong == 10000)
+                            {
+                                HighScore_Challenge10.getHighScoreChallenge10().ketThuc();
+                            }
+                            else if(tong == 20000)
+                            {
+                                HighScore_Challenge20.getHighScoreChallenge20().ketThuc();
+                            }
+                            else if(tong == 30000)
+                            {
+                                HighScore_Challenge.getHighScoreChallenge().ketThuc();
+                            }
+                            startActivity(new Intent(NhapTen_Challenge.this, MainActivity.class));
                             overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
                         }
                     }

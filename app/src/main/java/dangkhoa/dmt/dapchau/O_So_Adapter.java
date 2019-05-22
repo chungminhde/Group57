@@ -52,10 +52,9 @@ public class O_So_Adapter extends ArrayAdapter<Integer> {
         }
         return convertView;
     }
-    @Override
-    public void notifyDataSetChanged() {
-        arr = DataGame.getDatagame().getArrSo();
-        loai = DataGame.getDatagame().getLoai();
+    public void notifyDataSetChangedGame(ArrayList<Integer> a, ArrayList<Integer> b) {
+        arr = a;
+        loai = b;
         super.notifyDataSetChanged();
     }
 }

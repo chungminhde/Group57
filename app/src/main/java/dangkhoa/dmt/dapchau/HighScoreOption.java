@@ -3,44 +3,44 @@ package dangkhoa.dmt.dapchau;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-public class NewGame extends AppCompatActivity {
+public class HighScoreOption extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_game);
-        anhXa();
+        setContentView(R.layout.activity_high_score_option);
+        khaiBao();
         nhanNut();
+
     }
 
-    private Button btnSingle;
+    private Button standard;
 
-    private Button btnMulti;
+    private Button challenge;
 
-    private void anhXa()
+    public void khaiBao()
     {
-        btnSingle = (Button)findViewById(R.id.btnSinglePlay);
-        btnMulti = (Button)findViewById(R.id.btnPlayWithFriend);
+        standard = (Button)findViewById(R.id.btnStandardScore);
+        challenge = (Button)findViewById(R.id.btnChallengeScore);
     }
 
-    private void nhanNut()
+    public void nhanNut()
     {
-        btnSingle.setOnClickListener(new View.OnClickListener() {
+        standard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                startActivity(new Intent(NewGame.this, SingleOption.class));
+                startActivity(new Intent(HighScoreOption.this, HighScore.class));
                 overridePendingTransition(R.anim.anim_enter,R.anim.anim_exit);
             }
         });
-        btnMulti.setOnClickListener(new View.OnClickListener() {
+
+        challenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewGame.this, DangNhap.class));
+                startActivity(new Intent(HighScoreOption.this, HighScore_ChallengeOption.class));
                 overridePendingTransition(R.anim.anim_enter,R.anim.anim_exit);
             }
         });
@@ -52,3 +52,4 @@ public class NewGame extends AppCompatActivity {
         overridePendingTransition(R.anim.anim_enter_reverse,R.anim.anim_exit_reverse);
     }
 }
+

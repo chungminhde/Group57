@@ -36,6 +36,8 @@ public class DataGameChallenge {
         return Loai;
     }
 
+    private int taoSo = 0;
+
     public void setLoai(ArrayList<Integer> a) {
         Loai.clear();
         for (int i = 0; i < 16; i++) {
@@ -54,7 +56,7 @@ public class DataGameChallenge {
         }
     }
 
-    private int diem = -20;
+    private int diem = 0;
     private int diem_2 = 0;
     private int diemBest = 0;
     private int diemBest_2 = 0;
@@ -76,11 +78,6 @@ public class DataGameChallenge {
 
         taoSo();
         chuyenDoi();
-    }
-
-    public void congDiem() {
-        diem_2 = diem;
-        diem = diem + 10;
     }
 
     public int getDiem() {
@@ -117,10 +114,8 @@ public class DataGameChallenge {
         }
 
         if (so_0_Tao != 0) {
-            HighScore_Challenge10.getHighScoreChallenge10().congDiem();
-            HighScore_Challenge20.getHighScoreChallenge20().congDiem();
-            HighScore_Challenge.getHighScoreChallenge().congDiem();
-            congDiem();
+            taoSo = 1;
+
             arrSo_2.clear();
             Loai_2.clear();
             for (int i = 0; i < 16; i++) {
@@ -131,6 +126,10 @@ public class DataGameChallenge {
                 diemBest_2 = diemBest;
                 diemBest = diem;
             }
+        }
+        else
+        {
+            taoSo = 0;
         }
 
         while (so_0_Tao != 0) {
@@ -146,25 +145,7 @@ public class DataGameChallenge {
 
     public int isTaoSo()
     {
-        int so_0 = 0;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (mangHaiChieu[i][j] == 0) {
-                    so_0++;
-                }
-            }
-        }
-        int so_0_Tao;
-        if (so_0 == 16) {
-            so_0_Tao = 2;
-        } else {
-            if (so_0 > 0) {
-                so_0_Tao = 1;
-            } else {
-                so_0_Tao = 0;
-            }
-        }
-        return so_0_Tao;
+        return taoSo;
     }
 
     public void chuyenDoi() {
@@ -181,7 +162,7 @@ public class DataGameChallenge {
     public void restart() {
         arrSo.clear();
         Loai.clear();
-        diem = -10;
+        diem = 0;
         diem_2 = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -222,9 +203,42 @@ public class DataGameChallenge {
         }
     }
 
+    int xet()
+    {
+        int so_0 = 0;
+        for(int i = 0;i < 4;i++)
+        {
+            for(int j = 0;j < 4;j++)
+            {
+                if(mangHaiChieu[i][j] == 0)
+                {
+                    so_0++;
+                }
+            }
+        }
+        int so_0_Tao;
+        if(so_0 == 16)
+        {
+            so_0_Tao = 2;
+        }
+        else
+        {
+            if (so_0 > 0)
+            {
+                so_0_Tao = 1;
+            }
+            else
+            {
+                so_0_Tao = 0;
+            }
+        }
+        return so_0_Tao;
+    }
+
     // Vuốt trái
     public void vuotTrai() {
         xoaLoai();
+        int diem_3 = diem;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 int so = mangHaiChieu[i][j];
@@ -237,10 +251,13 @@ public class DataGameChallenge {
                             continue;
                         } else {
                             if (so_2 == so) {
+                                diem_3 = diem_3 + 10*(int)(Math.log(so) / Math.log(2));
+                                Challenge.getMyChallenge().amThanh();
                                 mangHaiChieu[i][j] = so * 2;
                                 _loai[i][j] = 1;
                                 mangHaiChieu[i][k] = 0;
                                 _loai[i][k] = 0;
+
                                 break;
                             } else {
                                 break;
@@ -249,6 +266,26 @@ public class DataGameChallenge {
                     }
                 }
             }
+        }
+
+        if(diem == diem_3)
+        {
+            if(xet() != 0)
+            {
+                diem_2 = diem;
+                diem = diem_3;
+                HighScore_Challenge10.getHighScoreChallenge10().congDiem();
+                HighScore_Challenge20.getHighScoreChallenge20().congDiem();
+                HighScore_Challenge.getHighScoreChallenge().congDiem();
+            }
+        }
+        else
+        {
+            diem_2 = diem;
+            diem = diem_3;
+            HighScore_Challenge10.getHighScoreChallenge10().congDiem();
+            HighScore_Challenge20.getHighScoreChallenge20().congDiem();
+            HighScore_Challenge.getHighScoreChallenge().congDiem();
         }
         // Sắp xếp
         for (int i = 0; i < 4; i++) {
@@ -282,6 +319,7 @@ public class DataGameChallenge {
     // Vuốt phải
     public void vuotPhai() {
         xoaLoai();
+        int diem_3 = diem;
         for (int i = 0; i < 4; i++) {
             for (int j = 3; j >= 0; j--) {
                 int so = mangHaiChieu[i][j];
@@ -294,6 +332,8 @@ public class DataGameChallenge {
                             continue;
                         } else {
                             if (so == so_2) {
+                                diem_3 = diem_3 + 10*(int)(Math.log(so) / Math.log(2));
+                                Challenge.getMyChallenge().amThanh();
                                 mangHaiChieu[i][j] = so * 2;
                                 _loai[i][j] = 1;
                                 mangHaiChieu[i][k] = 0;
@@ -308,6 +348,25 @@ public class DataGameChallenge {
             }
         }
 
+        if(diem == diem_3)
+        {
+            if(xet() != 0)
+            {
+                diem_2 = diem;
+                diem = diem_3;
+                HighScore_Challenge10.getHighScoreChallenge10().congDiem();
+                HighScore_Challenge20.getHighScoreChallenge20().congDiem();
+                HighScore_Challenge.getHighScoreChallenge().congDiem();
+            }
+        }
+        else
+        {
+            diem_2 = diem;
+            diem = diem_3;
+            HighScore_Challenge10.getHighScoreChallenge10().congDiem();
+            HighScore_Challenge20.getHighScoreChallenge20().congDiem();
+            HighScore_Challenge.getHighScoreChallenge().congDiem();
+        }
         // Sắp xếp
         for (int i = 0; i < 4; i++) {
             for (int j = 3; j >= 0; j--) {
@@ -340,6 +399,7 @@ public class DataGameChallenge {
     // Vuốt lên
     public void vuotLen() {
         xoaLoai();
+        int diem_3 = diem;
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 4; i++) {
                 int so = mangHaiChieu[i][j];
@@ -352,6 +412,8 @@ public class DataGameChallenge {
                             continue;
                         } else {
                             if (so_2 == so) {
+                                diem_3 = diem_3 + 10*(int)(Math.log(so) / Math.log(2));
+                                Challenge.getMyChallenge().amThanh();
                                 mangHaiChieu[i][j] = so * 2;
                                 _loai[i][j] = 1;
                                 mangHaiChieu[k][j] = 0;
@@ -366,6 +428,25 @@ public class DataGameChallenge {
             }
         }
 
+        if(diem == diem_3)
+        {
+            if(xet() != 0)
+            {
+                diem_2 = diem;
+                diem = diem_3;
+                HighScore_Challenge10.getHighScoreChallenge10().congDiem();
+                HighScore_Challenge20.getHighScoreChallenge20().congDiem();
+                HighScore_Challenge.getHighScoreChallenge().congDiem();
+            }
+        }
+        else
+        {
+            diem_2 = diem;
+            diem = diem_3;
+            HighScore_Challenge10.getHighScoreChallenge10().congDiem();
+            HighScore_Challenge20.getHighScoreChallenge20().congDiem();
+            HighScore_Challenge.getHighScoreChallenge().congDiem();
+        }
         // Sắp xếp
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 4; i++) {
@@ -398,6 +479,7 @@ public class DataGameChallenge {
     // Vuốt xuống
     public void vuotXuong() {
         xoaLoai();
+        int diem_3 = diem;
         for (int j = 0; j < 4; j++) {
             for (int i = 3; i >= 0; i--) {
                 int so = mangHaiChieu[i][j];
@@ -410,6 +492,8 @@ public class DataGameChallenge {
                             continue;
                         } else {
                             if (so_2 == so) {
+                                diem_3 = diem_3 + 10*(int)(Math.log(so) / Math.log(2));
+                                Challenge.getMyChallenge().amThanh();
                                 mangHaiChieu[i][j] = so * 2;
                                 _loai[i][j] = 1;
                                 mangHaiChieu[k][j] = 0;
@@ -424,6 +508,25 @@ public class DataGameChallenge {
             }
         }
 
+        if(diem == diem_3)
+        {
+            if(xet() != 0)
+            {
+                diem_2 = diem;
+                diem = diem_3;
+                HighScore_Challenge10.getHighScoreChallenge10().congDiem();
+                HighScore_Challenge20.getHighScoreChallenge20().congDiem();
+                HighScore_Challenge.getHighScoreChallenge().congDiem();
+            }
+        }
+        else
+        {
+            diem_2 = diem;
+            diem = diem_3;
+            HighScore_Challenge10.getHighScoreChallenge10().congDiem();
+            HighScore_Challenge20.getHighScoreChallenge20().congDiem();
+            HighScore_Challenge.getHighScoreChallenge().congDiem();
+        }
 
         // Sắp xếp
         for (int j = 0; j < 4; j++) {

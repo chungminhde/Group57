@@ -30,7 +30,7 @@
             <Button
                 android:id="@+id/btnStandard"
                 android:textColor="#FFF"
-                android:text="Standard"
+                android:text="Normal"
                 android:background="@drawable/ic_goctron3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

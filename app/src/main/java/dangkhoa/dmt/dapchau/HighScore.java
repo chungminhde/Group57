@@ -158,9 +158,13 @@ public class HighScore extends AppCompatActivity {
     public void congDiem()
     {
         diem_2 = diem;
-        diem = diem + 10;
+        diem = DataGame.getDatagame().getDiem();
     }
 
+    public void dongBo()
+    {
+        diem_2 = diem;
+    }
     public void quayLaiDiem()
     {
         diem = diem_2;
@@ -265,5 +269,11 @@ public class HighScore extends AppCompatActivity {
         editor.putString("hoTen10","");
         editor.commit();
         this.recreate();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_enter_reverse,R.anim.anim_exit_reverse);
     }
 }

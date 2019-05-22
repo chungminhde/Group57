@@ -62,7 +62,7 @@ public class Menu extends AppCompatActivity {
         btnHighScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Menu.this, HighScore.class));
+                startActivity(new Intent(Menu.this, HighScoreOption.class));
                 overridePendingTransition(R.anim.anim_enter,R.anim.anim_exit);
             }
         });
@@ -75,5 +75,11 @@ public class Menu extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_enter_reverse,R.anim.anim_exit_reverse);
     }
 }

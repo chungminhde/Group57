@@ -66,6 +66,8 @@ public class GamePlay extends AppCompatActivity {
 
     private TextView myDiemBest;
 
+    private SoundPlayer sound;
+
     private double x0, y0, x, y;
 
     private void anhXa(){
@@ -75,6 +77,7 @@ public class GamePlay extends AppCompatActivity {
         myDiemBest = (TextView)findViewById(R.id.myBestDiem);
         btnMenu = (Button)findViewById(R.id.btnMenu);
         btnUndo = (Button)findViewById(R.id.btnUnDo);
+        sound = new SoundPlayer(this);
     }
 
     private void khoiTao(){
@@ -95,31 +98,35 @@ public class GamePlay extends AppCompatActivity {
                             if (Math.abs(x - x0) > Math.abs(y - y0)) {
                                 if (x > x0) {                                     // Vuốt phải
                                     DataGame.getDatagame().vuotPhai();
-                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetChangedGame(DataGame.getDatagame().getArrSo(), DataGame.getDatagame().getLoai());
                                 } else if (x < x0) {                                //Vuốt trái
                                     DataGame.getDatagame().vuotTrai();
-                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetChangedGame(DataGame.getDatagame().getArrSo(), DataGame.getDatagame().getLoai());
                                 }
                             } else if (Math.abs(x - x0) < Math.abs(y - y0)) {
                                 if (y > y0) {                            // Vuốt xuống
                                     DataGame.getDatagame().vuotXuong();
-                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetChangedGame(DataGame.getDatagame().getArrSo(), DataGame.getDatagame().getLoai());
                                 } else if (y < y0) {                                 // Vuốt lên
                                     DataGame.getDatagame().vuotLen();
-                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetChangedGame(DataGame.getDatagame().getArrSo(), DataGame.getDatagame().getLoai());
                                 }
                             }
                             myDiem.setText("" + DataGame.getDatagame().getDiem());
                             myDiemBest.setText("" + DataGame.getDatagame().getDiemBest());
                             if (DataGame.getDatagame().kiemTra() == 0) {
                                 tinhHinh = 2;
+                                sound.playThuaSound();
                                 DataGame.getDatagame().dongBo();
-                                Toast.makeText(GamePlay.this, "GAME OVER", Toast.LENGTH_LONG).show();
+                                HighScore.getHighScore().dongBo();
+                                Toast.makeText(GamePlay.this, "GAME OVER", Toast.LENGTH_SHORT).show();
                             }
                             if (DataGame.getDatagame().phaDao() == 1) {
                                 tinhHinh = 2;
+                                sound.playThangSound();
                                 DataGame.getDatagame().dongBo();
-                                Toast.makeText(GamePlay.this, "YOU WIN", Toast.LENGTH_LONG).show();
+                                HighScore.getHighScore().dongBo();
+                                Toast.makeText(GamePlay.this, "YOU WIN", Toast.LENGTH_SHORT).show();
                             }
                             break;
                     }
@@ -164,7 +171,7 @@ public class GamePlay extends AppCompatActivity {
     public void setMyUnDo()
     {
         DataGame.getDatagame().getBack();
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChangedGame(DataGame.getDatagame().getArrSo(), DataGame.getDatagame().getLoai());
         myDiem.setText(""+DataGame.getDatagame().getDiem());
         myDiemBest.setText(""+DataGame.getDatagame().getDiemBest());
         setData();
@@ -187,5 +194,16 @@ public class GamePlay extends AppCompatActivity {
     public void resetTinhHinh()
     {
         tinhHinh = 0;
+    }
+
+    public void amThanh()
+    {
+        sound.playHitSound();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_enter_reverse,R.anim.anim_exit_reverse);
     }
 }

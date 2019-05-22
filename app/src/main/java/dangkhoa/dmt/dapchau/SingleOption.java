@@ -39,5 +39,20 @@ public class SingleOption extends AppCompatActivity {
                 overridePendingTransition(R.anim.anim_enter,R.anim.anim_exit);
             }
         });
+
+        challenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(SingleOption.this, ChallengeOption.class));
+                overridePendingTransition(R.anim.anim_enter,R.anim.anim_exit);
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_enter_reverse,R.anim.anim_exit_reverse);
     }
 }

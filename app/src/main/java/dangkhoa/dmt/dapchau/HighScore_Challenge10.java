@@ -157,7 +157,7 @@ public class HighScore_Challenge10 extends AppCompatActivity {
     public void congDiem()
     {
         diem_2 = diem;
-        diem = diem + 10;
+        diem = DataGameChallenge.getDatagameChallenge().getDiem();
     }
 
     public void dongBo()
@@ -267,6 +267,12 @@ public class HighScore_Challenge10 extends AppCompatActivity {
         editor.putString("hoTen10Challenge10","");
         editor.commit();
         this.recreate();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_enter_reverse,R.anim.anim_exit_reverse);
     }
 }
 
