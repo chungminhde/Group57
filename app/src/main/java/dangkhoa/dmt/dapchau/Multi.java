@@ -58,8 +58,8 @@ public class Multi extends AppCompatActivity {
 
         Intent intent1 = getIntent();
         Bundle bundle = intent1.getBundleExtra("guiten");
-        tenDangNhap = bundle.getInt("tenMinh");
-        tenBan = bundle.getInt("tenBan");
+        tenDangNhap = bundle.getString("tenMinh");
+        tenBan = bundle.getString("tenBan");
 
         tongThoiGian = 10000;
         timerLeft = tongThoiGian;
@@ -83,8 +83,8 @@ public class Multi extends AppCompatActivity {
         return myMulti;
     }
 
-    private int tenDangNhap = 0;
-    private int tenBan = 0;
+    private String tenDangNhap = "";
+    private String tenBan = "";
     private GridView gdvGamePlay, gdvMulti;
 
     private O_So_Adapter adapter;
@@ -278,8 +278,8 @@ public class Multi extends AppCompatActivity {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             mSocket.emit("thoatDangChoi", tenDangNhap);
-                            tenDangNhap = 0;
-                            tenBan = 0;
+                            tenDangNhap = "";
+                            tenBan = "";
                             resetTimer();
                             mSocket.disconnect();
                             MainActivity.getMyMain().khoaThoatRa();
@@ -345,14 +345,14 @@ public class Multi extends AppCompatActivity {
                     JSONObject data = (JSONObject) args[0];
                     JSONArray mang;
                     JSONArray loaiMang;
-                    int ten = 0;
+                    String ten = "";
                     ArrayList<Integer> mangMulti = new ArrayList<Integer>();
                     ArrayList<Integer> mangLoai = new ArrayList<Integer>();
                     try {
                         mang = data.getJSONArray("danhsachMang");
                         loaiMang = data.getJSONArray("danhsachLoai");
-                        ten = data.getInt("tenDangNhap");
-                        if(ten == tenBan && tenBan != 0)
+                        ten = data.getString("tenDangNhap");
+                        if(ten.equals(tenBan) == true && tenBan.equals("") != true)
                         {
                             if(mang.length() > 0)
                             {
@@ -391,12 +391,12 @@ public class Multi extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    int ten = 0;
+                    String ten = "";
                     int diem = 0;
                     try {
-                        ten = data.getInt("tenDangNhapDiem");
+                        ten = data.getString("tenDangNhapDiem");
                         diem = data.getInt("diemDat");
-                        if(ten == tenBan && tenBan != 0) {
+                        if(ten.equals(tenBan) == true && tenBan.equals("") != true) {
                             friendDiem.setText("" + diem);
                         }
 
@@ -414,10 +414,10 @@ public class Multi extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    int ten = 0;
+                    String ten = "";
                     try {
-                        ten = data.getInt("tenDangNhapThang");
-                        if(ten == tenBan && tenBan != 0) {
+                        ten = data.getString("tenDangNhapThang");
+                        if(ten.equals(tenBan) == true && tenBan.equals("") != true) {
                             pauseTimer();
                             if(timerRunning_2 == true)
                             {
@@ -443,10 +443,10 @@ public class Multi extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    int ten = 0;
+                    String ten = "";
                     try {
-                        ten = data.getInt("tenDangNhapThua");
-                        if(ten == tenBan && tenBan != 0) {
+                        ten = data.getString("tenDangNhapThua");
+                        if(ten.equals(tenBan) == true && tenBan.equals("") != true) {
                             pauseTimer();
                             if(timerRunning_2 == true)
                             {
@@ -472,10 +472,10 @@ public class Multi extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    int ten;
+                    String ten;
                     try {
-                        ten = data.getInt("tenTran");
-                        if(ten == tenBan && tenBan != 0) {
+                        ten = data.getString("tenTran");
+                        if(ten.equals(tenBan) == true && tenBan.equals("") != true) {
                             startTimer();
                             startTimer_2();
                         }
@@ -494,12 +494,12 @@ public class Multi extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    int ten;
+                    String ten;
                     long thoigian;
                     try {
-                        ten = data.getInt("tenthoigian");
+                        ten = data.getString("tenthoigian");
                         thoigian = data.getLong("thoigian");
-                        if(ten == tenBan && tenBan != 0 ) {
+                        if(ten.equals(tenBan) == true && tenBan.equals("") != true) {
                             pauseTimer_2();
                             timerLeft_2 = thoigian;
                             startTimer_2();
@@ -519,10 +519,10 @@ public class Multi extends AppCompatActivity {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    int ten;
+                    String ten;
                     try {
-                        ten = data.getInt("nguoiThoat");
-                        if(ten == tenBan && tenBan != 0 ) {
+                        ten = data.getString("nguoiThoat");
+                        if(ten.equals(tenBan) == true && tenBan.equals("") != true) {
                             if(timerRunning == true)
                             {
                                 pauseTimer();
@@ -533,8 +533,8 @@ public class Multi extends AppCompatActivity {
                             resetTimer();
                             mSocket.emit("thoatDangChoi", tenDangNhap);
                             Toast.makeText(Multi.this, "'"+ tenBan + "' đã đăng xuất khỏi trò chơi", Toast.LENGTH_SHORT).show();
-                            tenDangNhap = 0;
-                            tenBan = 0;
+                            tenDangNhap = "";
+                            tenBan = "";
                             Intent intent2 = new Intent();
                             setResult(RESULT_OK, intent2);
                             finish();
@@ -690,8 +690,8 @@ public class Multi extends AppCompatActivity {
             timerRunning_2 = false;
         }
         mSocket.emit("thoatDangChoi", tenDangNhap);
-        tenDangNhap = 0;
-        tenBan = 0;
+        tenDangNhap = "";
+        tenBan = "";
         resetTimer();
         mSocket.emit("thoatGame", 0);
         super.onStop();

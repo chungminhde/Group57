@@ -89,7 +89,7 @@ public class DangNhap extends AppCompatActivity {
 
     private EditText myDangNhap;
 
-    private int tenMinh = 0;
+    private String tenMinh = "";
 
 
     private Emitter.Listener onMessage_ketquaDangKy = new Emitter.Listener() {
@@ -127,7 +127,7 @@ public class DangNhap extends AppCompatActivity {
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
                     try {
-                        tenMinh = data.getInt("tenMinh");
+                        tenMinh = data.getString("tenMinh");
                     } catch (JSONException e) {
                         return;
                     }
